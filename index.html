@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>線上影片剪輯器</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1"></script>
+    <!-- 使用正確的 FFmpeg.wasm 版本 -->
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 </head>
 <body>
     <h2>線上影片剪輯器</h2>
@@ -14,7 +15,8 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            const { createFFmpeg, fetchFile } = FFmpeg;  // ✅ 確保 FFmpeg 變數可用
+            // ✅ 確保 `FFmpeg` 變數來自 `window.FFmpeg`
+            const { createFFmpeg, fetchFile } = window.FFmpeg;  
             const ffmpeg = createFFmpeg({ log: true });
 
             document.getElementById('trimBtn').addEventListener('click', async () => {
