@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>線上影片剪輯器</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1"></script>
 </head>
 <body>
     <h2>線上影片剪輯器</h2>
@@ -13,25 +13,27 @@
     <a id="downloadLink" style="display: none;" download="output.mp4">📥 下載影片</a>
 
     <script>
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({ log: true });
+        document.addEventListener("DOMContentLoaded", async () => {
+            const { createFFmpeg, fetchFile } = FFmpeg;  // ✅ 確保 FFmpeg 變數可用
+            const ffmpeg = createFFmpeg({ log: true });
 
-    document.getElementById('trimBtn').addEventListener('click', async () => {
-        await ffmpeg.load();
-        const videoFile = document.getElementById('videoInput').files[0];
-        if (!videoFile) {
-            alert("請先上傳影片！");
-            return;
-        }
+            document.getElementById('trimBtn').addEventListener('click', async () => {
+                await ffmpeg.load();
+                const videoFile = document.getElementById('videoInput').files[0];
+                if (!videoFile) {
+                    alert("請先上傳影片！");
+                    return;
+                }
 
-        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-        await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
+                ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+                await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
 
-        const data = ffmpeg.FS('readFile', 'output.mp4');
-        const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-        document.getElementById('downloadLink').href = url;
-        document.getElementById('downloadLink').style.display = 'block';
-    });
+                const data = ffmpeg.FS('readFile', 'output.mp4');
+                const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+                document.getElementById('downloadLink').href = url;
+                document.getElementById('downloadLink').style.display = 'block';
+            });
+        });
     </script>
 </body>
 </html>
