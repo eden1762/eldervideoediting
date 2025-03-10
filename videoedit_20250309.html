@@ -3,96 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎥 長者友善影片剪輯</title>
-    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/wasm@0.10.2"></script>
+    <title>線上影片剪輯器</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.10.1/dist/ffmpeg.min.js"></script>
 </head>
 <body>
-
-<div>
-    <h2>🎥 長者友善影片剪輯</h2>
-    
-    <h3>📥 匯入影片</h3>
+    <h2>線上影片剪輯器</h2>
     <input type="file" id="videoInput" accept="video/*">
-    <video id="videoPlayer" controls></video>
-
-    <h3>✂️ 影片裁剪</h3>
-    <label>開始時間（秒）：</label>
-    <input type="number" id="startTime" min="0" step="0.1"><br>
-    <label>結束時間（秒）：</label>
-    <input type="number" id="endTime" min="0" step="0.1"><br>
-    <button onclick="trimVideo()">✂️ 剪輯影片</button>
-
-    <h3>📤 輸出影片</h3>
-    <button onclick="exportVideo()">💾 輸出影片</button>
+    <button id="trimBtn">✂️ 剪輯影片</button>
     <a id="downloadLink" style="display: none;" download="output.mp4">📥 下載影片</a>
-</div>
 
-<script>
-const { createFFmpeg, fetchFile } = ffmpeg;
-const ffmpeg = createFFmpeg({ 
-    log: true, 
-    corePath: "https://cdn.jsdelivr.net/npm/@ffmpeg/wasm@0.10.2/dist/ffmpeg-core.js"
-});
+    <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
 
-let videoFile;
+    document.getElementById('trimBtn').addEventListener('click', async () => {
+        await ffmpeg.load();
+        const videoFile = document.getElementById('videoInput').files[0];
+        if (!videoFile) {
+            alert("請先上傳影片！");
+            return;
+        }
 
-// 影片匯入
-document.getElementById('videoInput').addEventListener('change', async function(event) {
-    videoFile = event.target.files[0];
-    if (videoFile) {
-        const videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.src = URL.createObjectURL(videoFile);
-    }
-});
+        ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+        await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
 
-// 影片裁剪
-async function trimVideo() {
-    if (!videoFile) {
-        alert("請先上傳影片！");
-        return;
-    }
-
-    const startTime = document.getElementById('startTime').value;
-    const endTime = document.getElementById('endTime').value;
-
-    if (!startTime || !endTime || parseFloat(startTime) >= parseFloat(endTime)) {
-        alert("請輸入有效的時間範圍！");
-        return;
-    }
-
-    if (!ffmpeg.isLoaded()) await ffmpeg.load();
-
-    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-
-    await ffmpeg.run('-i', 'input.mp4', '-ss', startTime, '-to', endTime, '-c', 'copy', 'trimmed.mp4');
-
-    const data = ffmpeg.FS('readFile', 'trimmed.mp4');
-    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-
-    document.getElementById('downloadLink').href = url;
-    document.getElementById('downloadLink').style.display = 'block';
-}
-
-// 最終輸出影片
-async function exportVideo() {
-    if (!videoFile) {
-        alert("請先上傳影片！");
-        return;
-    }
-
-    if (!ffmpeg.isLoaded()) await ffmpeg.load();
-
-    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-
-    await ffmpeg.run('-i', 'input.mp4', '-c:v', 'libx264', '-preset', 'fast', '-crf', '23', '-c:a', 'aac', 'output.mp4');
-
-    const data = ffmpeg.FS('readFile', 'output.mp4');
-    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-
-    document.getElementById('downloadLink').href = url;
-    document.getElementById('downloadLink').style.display = 'block';
-}
-</script>
-
+        const data = ffmpeg.FS('readFile', 'output.mp4');
+        const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+        document.getElementById('downloadLink').href = url;
+        document.getElementById('downloadLink').style.display = 'block';
+    });
+    </script>
 </body>
 </html>
