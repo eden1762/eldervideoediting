@@ -3,25 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>線上影片剪輯器</title>
-    <!-- 使用正確的 FFmpeg.wasm 版本 -->
+    <title>長者友善 影片剪輯器</title>
     <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.6.0/wavesurfer.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            font-size: 24px;
+        }
+        button, input {
+            font-size: 20px;
+            padding: 15px;
+            margin: 10px;
+            width: 80%;
+            max-width: 300px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden { display: none; }
+        .audio-visualizer {
+            width: 100%;
+            height: 100px;
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
-    <h2>線上影片剪輯器</h2>
+
+    <h2>🎥 長者友善 影片剪輯器</h2>
+
+    <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
     <button id="trimBtn">✂️ 剪輯影片</button>
-    <a id="downloadLink" style="display: none;" download="output.mp4">📥 下載影片</a>
+    <button id="addSubtitlesBtn">💬 加字幕</button>
+    <button id="addMusicBtn">🎵 加音樂</button>
+    <button id="addNarrationBtn">🎙 加旁白</button>
+    <button id="effectsBtn">✨ 加特效</button>
+    <button id="exportBtn">📤 完成影片</button>
+
+    <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>
+
+    <!-- 音頻視覺化 -->
+    <div id="waveform" class="audio-visualizer"></div>
+
+    <!-- 語音識別 -->
+    <button id="voiceControlBtn">🎙 語音控制</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
-            // ✅ 確保 `FFmpeg` 變數來自 `window.FFmpeg`
-            const { createFFmpeg, fetchFile } = window.FFmpeg;  
+            const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
+            const videoInput = document.getElementById('videoInput');
+            const trimBtn = document.getElementById('trimBtn');
+            const downloadLink = document.getElementById('downloadLink');
+            const voiceControlBtn = document.getElementById('voiceControlBtn');
 
-            document.getElementById('trimBtn').addEventListener('click', async () => {
+            const waveSurfer = WaveSurfer.create({
+                container: '#waveform',
+                waveColor: 'blue',
+                progressColor: 'red',
+                height: 80
+            });
+
+            trimBtn.addEventListener('click', async () => {
                 await ffmpeg.load();
-                const videoFile = document.getElementById('videoInput').files[0];
+                const videoFile = videoInput.files[0];
                 if (!videoFile) {
                     alert("請先上傳影片！");
                     return;
@@ -32,10 +88,43 @@
 
                 const data = ffmpeg.FS('readFile', 'output.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-                document.getElementById('downloadLink').href = url;
-                document.getElementById('downloadLink').style.display = 'block';
+                downloadLink.href = url;
+                downloadLink.classList.remove('hidden');
             });
+
+            // 🎤 語音識別
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                const recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.lang = "zh-TW";
+
+                recognition.onresult = function(event) {
+                    const speechResult = event.results[0][0].transcript;
+                    console.log("語音指令：", speechResult);
+
+                    if (speechResult.includes("匯入影片")) {
+                        videoInput.click();
+                    } else if (speechResult.includes("剪輯影片")) {
+                        trimBtn.click();
+                    } else if (speechResult.includes("完成影片")) {
+                        alert("影片處理完成！請下載。");
+                        downloadLink.click();
+                    } else {
+                        alert("未識別的指令，請再試一次！");
+                    }
+                };
+
+                voiceControlBtn.addEventListener('click', () => {
+                    recognition.start();
+                    alert("請說出您的指令，如「剪輯影片」、「匯入影片」");
+                });
+            } else {
+                voiceControlBtn.disabled = true;
+                alert("此瀏覽器不支援語音控制");
+            }
         });
     </script>
+
 </body>
 </html>
