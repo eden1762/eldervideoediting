@@ -44,6 +44,7 @@
 
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
+    <video id="videoPlayer" controls></video>
     <button id="trimBtn">✂️ 剪輯影片</button>
     <button id="addSubtitlesBtn">💬 加字幕</button>
     <button id="addMusicBtn">🎵 加音樂</button>
@@ -64,6 +65,7 @@
             const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
             const videoInput = document.getElementById('videoInput');
+            const videoPlayer = document.getElementById('videoPlayer');
             const trimBtn = document.getElementById('trimBtn');
             const downloadLink = document.getElementById('downloadLink');
             const voiceControlBtn = document.getElementById('voiceControlBtn');
