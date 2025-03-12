@@ -45,8 +45,23 @@
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
     <video id="videoPlayer" controls></video>
+    
+    <h3>✂️ 剪輯影片</h3>
+    <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
+    <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
     <button id="trimBtn">✂️ 剪輯影片</button>
-    <button id="addSubtitlesBtn">💬 加字幕</button>
+    <a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>
+    
+    <h3>💬 添加字幕</h3>
+    <button id="addSubtitlesBtn">開始添加字幕</button>
+    <div id="subtitleSection" class="subtitle-box">
+        <label>字幕內容: <input type="text" id="subtitleText"></label>
+        <label>字幕開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
+        <button id="applySubtitlesBtn">應用字幕</button>
+        <p>📺 字幕預覽：</p>
+        <div id="subtitlePreview" style="background: black; color: yellow; font-size: 20px; padding: 5px; display: inline-block;"></div>
+    </div>
+    
     <button id="addMusicBtn">🎵 加音樂</button>
     <button id="addNarrationBtn">🎙 加旁白</button>
     <button id="effectsBtn">✨ 加特效</button>
