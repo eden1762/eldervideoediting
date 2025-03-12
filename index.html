@@ -99,16 +99,16 @@
                 progressColor: 'red',
                 height: 80
             });
-            let currentVideoFile = null;
+            let videoFile = null;
             videoInput.addEventListener('change', () => {
-                currentVideoFile = videoInput.files[0];
-                const videoURL = URL.createObjectURL(currentVideoFile);
+                videoFile = videoInput.files[0];
+                const videoURL = URL.createObjectURL(videoFile);
                 videoPlayer.src = videoURL;
             });
             
 
             trimBtn.addEventListener('click', async () => {
-                if (!currentVideoFile) {
+                if (!videoFile) {
                     alert("請先上傳影片！");
                     return;
                 }
