@@ -76,8 +76,9 @@
     <button id="voiceControlBtn">🎙 語音控制</button>
 
     <script>
-        console.log("20250312-2143");
+       
         document.addEventListener("DOMContentLoaded", async () => {
+             console.log("20250312-2143");
             const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
             const videoInput = document.getElementById('videoInput');
