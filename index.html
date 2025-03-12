@@ -83,6 +83,14 @@
             const videoPlayer = document.getElementById('videoPlayer');
             const trimBtn = document.getElementById('trimBtn');
             const downloadLink = document.getElementById('downloadLink');
+            const startTimeInput = document.getElementById('startTime');
+            const endTimeInput = document.getElementById('endTime');
+            const addSubtitlesBtn = document.getElementById('addSubtitlesBtn');
+            const subtitleSection = document.getElementById('subtitleSection');
+            const subtitleText = document.getElementById('subtitleText');
+            const subtitleStart = document.getElementById('subtitleStart');
+            const applySubtitlesBtn = document.getElementById('applySubtitlesBtn');
+            const subtitlePreview = document.getElementById('subtitlePreview');
             const voiceControlBtn = document.getElementById('voiceControlBtn');
 
             const waveSurfer = WaveSurfer.create({
@@ -91,24 +99,51 @@
                 progressColor: 'red',
                 height: 80
             });
+            let currentVideoFile = null;
+            videoInput.addEventListener('change', () => {
+                currentVideoFile = videoInput.files[0];
+                const videoURL = URL.createObjectURL(currentVideoFile);
+                videoPlayer.src = videoURL;
+            });
+            
 
             trimBtn.addEventListener('click', async () => {
-                await ffmpeg.load();
-                const videoFile = videoInput.files[0];
-                if (!videoFile) {
+                if (!currentVideoFile) {
                     alert("請先上傳影片！");
                     return;
                 }
+                await ffmpeg.load();
+                //const videoFile = videoInput.files[0];
+                //if (!videoFile) {
+                //    alert("請先上傳影片！");
+                //    return;
+                //}
 
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-                await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
+                const start = startTimeInput.value;
+                const end = endTimeInput.value;
+                //await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
+                await ffmpeg.run('-i', 'input.mp4', '-ss', start, '-to', end, '-c', 'copy', 'output.mp4');
 
                 const data = ffmpeg.FS('readFile', 'output.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
                 downloadLink.href = url;
                 downloadLink.classList.remove('hidden');
             });
+            addSubtitlesBtn.addEventListener('click', () => {
+                subtitleSection.style.display = "block";
+            });
 
+            applySubtitlesBtn.addEventListener('click', () => {
+                const text = subtitleText.value;
+                const start = subtitleStart.value;
+                subtitlePreview.textContent = text;
+                subtitlePreview.style.display = "block";
+
+                setTimeout(() => {
+                    subtitlePreview.style.display = "none";
+                }, 5000);
+            });
             // 🎤 語音識別
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRecognition) {
@@ -120,13 +155,15 @@
                     const speechResult = event.results[0][0].transcript;
                     console.log("語音指令：", speechResult);
 
-                    if (speechResult.includes("匯入影片")) {
-                        videoInput.click();
-                    } else if (speechResult.includes("剪輯影片")) {
+                    if (speechResult.includes("剪輯影片")) {
                         trimBtn.click();
-                    } else if (speechResult.includes("完成影片")) {
-                        alert("影片處理完成！請下載。");
-                        downloadLink.click();
+                    } else if (speechResult.includes("字幕")) {
+                        addSubtitlesBtn.click();
+                    } else if (speechResult.match(/從(\d+)秒到(\d+)秒剪輯/)) {
+                        const match = speechResult.match(/從(\d+)秒到(\d+)秒剪輯/);
+                        startTimeInput.value = match[1];
+                        endTimeInput.value = match[2];
+                        trimBtn.click();
                     } else {
                         alert("未識別的指令，請再試一次！");
                     }
@@ -134,7 +171,7 @@
 
                 voiceControlBtn.addEventListener('click', () => {
                     recognition.start();
-                    alert("請說出您的指令，如「剪輯影片」、「匯入影片」");
+                    alert("請說出您的指令，如「從 5 秒到 10 秒剪輯」或「添加字幕」");
                 });
             } else {
                 voiceControlBtn.disabled = true;
