@@ -30,7 +30,22 @@
         button:hover {
             background-color: #0056b3;
         }
+        video {
+            width: 90%;
+            max-width: 600px;
+            margin: 10px 0;
+        }
         .hidden { display: none; }
+        .subtitle-box {
+            margin-top: 20px;
+        }
+        #subtitlePreview {
+            background: black;
+            color: yellow;
+            font-size: 20px;
+            padding: 5px;
+            display: inline-block;
+        }
         .audio-visualizer {
             width: 100%;
             height: 100px;
@@ -54,13 +69,19 @@
     
     <h3>💬 添加字幕</h3>
     <button id="addSubtitlesBtn">開始添加字幕</button>
-    <div id="subtitleSection" class="subtitle-box">
+    <div id="subtitleSection" class="subtitle-box hidden">
         <label>字幕內容: <input type="text" id="subtitleText"></label>
-        <label>字幕開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
-        <button id="applySubtitlesBtn">應用字幕</button>
-        <p>📺 字幕預覽：</p>
-        <div id="subtitlePreview" style="background: black; color: yellow; font-size: 20px; padding: 5px; display: inline-block;"></div>
+        <label>開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
+        <label>結束時間 (秒): <input type="number" id="subtitleEnd" min="0"></label>
+        <button id="applySubtitlesBtn">新增字幕</button>
+        <ul id="subtitleList"></ul>
     </div>
+    <button id="generateSubtitledVideo">📼 產生含字幕影片</button>
+    <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
+
+    <!-- 字幕即時預覽 -->
+    <p>📺 字幕預覽：</p>
+    <div id="subtitlePreview"></div>
     
     <button id="addMusicBtn">🎵 加音樂</button>
     <button id="addNarrationBtn">🎙 加旁白</button>
@@ -91,7 +112,11 @@
             const subtitleSection = document.getElementById('subtitleSection');
             const subtitleText = document.getElementById('subtitleText');
             const subtitleStart = document.getElementById('subtitleStart');
+            const subtitleEnd = document.getElementById('subtitleEnd');
             const applySubtitlesBtn = document.getElementById('applySubtitlesBtn');
+             const subtitleList = document.getElementById('subtitleList');
+            const generateSubtitledVideo = document.getElementById('generateSubtitledVideo');
+            const subtitledDownloadLink = document.getElementById('subtitledDownloadLink');
             const subtitlePreview = document.getElementById('subtitlePreview');
             const voiceControlBtn = document.getElementById('voiceControlBtn');
 
@@ -102,6 +127,7 @@
                 height: 80
             });
             let videoFile = null;
+            let subtitles = [];
             videoInput.addEventListener('change', () => {
                 videoFile = videoInput.files[0];
                 const videoURL = URL.createObjectURL(videoFile);
@@ -133,19 +159,47 @@
                 downloadLink.classList.remove('hidden');
             });
             addSubtitlesBtn.addEventListener('click', () => {
-                subtitleSection.style.display = "block";
+                //subtitleSection.style.display = "block";
+                subtitleSection.classList.toggle("hidden");
             });
 
             applySubtitlesBtn.addEventListener('click', () => {
                 const text = subtitleText.value;
                 const start = subtitleStart.value;
-                subtitlePreview.textContent = text;
-                subtitlePreview.style.display = "block";
+                const end = subtitleEnd.value;
 
-                setTimeout(() => {
-                    subtitlePreview.style.display = "none";
-                }, 5000);
+                subtitles.push({ text, start, end });
+                
+                 let listItem = document.createElement("li");
+                listItem.textContent = `(${start}s - ${end}s) ${text}`;
+                subtitleList.appendChild(listItem);
             });
+
+            generateSubtitledVideo.addEventListener('click', async () => {
+                if (!videoFile) {
+                    alert("請先上傳影片！");
+                    return;
+                }
+                await ffmpeg.load();
+                ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+
+                let srtContent = subtitles.map((sub, index) => 
+                    `${index + 1}\n${new Date(sub.start * 1000).toISOString().substr(11, 8)} --> ${new Date(sub.end * 1000).toISOString().substr(11, 8)}\n${sub.text}\n`
+                ).join("\n");
+
+                ffmpeg.FS('writeFile', 'subtitles.srt', new TextEncoder().encode(srtContent));
+                await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt', '-c:a', 'copy', 'subtitled.mp4');
+
+                const data = ffmpeg.FS('readFile', 'subtitled.mp4');
+                const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+                subtitledDownloadLink.href = url;
+                subtitledDownloadLink.classList.remove('hidden');
+            });
+
+            voiceControlBtn.addEventListener('click', () => {
+                alert("語音識別尚未啟用，請手動輸入字幕！");
+            });
+
             // 🎤 語音識別
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRecognition) {
