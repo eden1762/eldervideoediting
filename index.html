@@ -183,12 +183,14 @@
                 await ffmpeg.load();
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
 
-                let srtContent = subtitles.map((sub, index) => 
-                    `${index + 1}\n${new Date(sub.start * 1000).toISOString().substr(11, 8)} --> ${new Date(sub.end * 1000).toISOString().substr(11, 8)}\n${sub.text}\n`
-                ).join("\n");
+                 let srtContent = subtitles.map((sub, index) => {
+                    let startTime = new Date(sub.start * 1000).toISOString().substr(11, 8).replace('.', ',');
+                    let endTime = new Date(sub.end * 1000).toISOString().substr(11, 8).replace('.', ',');
+                    return `${index + 1}\n${startTime} --> ${endTime}\n${sub.text}\n`;
+                }).join("\n");
 
                 ffmpeg.FS('writeFile', 'subtitles.srt', new TextEncoder().encode(srtContent));
-                await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt', '-c:a', 'copy', 'subtitled.mp4');
+                await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt:force_style='Fontsize=24,PrimaryColour=&H00FFFF00'",'-c:v', 'libx264', '-c:a', 'copy', 'subtitled.mp4');
 
                 const data = ffmpeg.FS('readFile', 'subtitled.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
