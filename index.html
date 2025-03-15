@@ -63,6 +63,7 @@
     <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
 
     <script>
+        console.log("20250315-1035");
         document.addEventListener("DOMContentLoaded", async () => {
             const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
