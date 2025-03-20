@@ -56,6 +56,7 @@
 <body>
 
     <h2>🎥 長者友善 影片剪輯器</h2>
+    <label id="method"></label>
 
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
@@ -97,9 +98,20 @@
     <button id="voiceControlBtn">🎙 語音控制</button>
 
     <script>
-       
+       console.log("20250321-0715");
         document.addEventListener("DOMContentLoaded", async () => {
-            console.log("20250315-1030");
+
+              function getQueryParams() {
+                let params = new URLSearchParams(window.location.search);
+                let name = params.get("name");
+                
+            
+                document.getElementById("method").innerText = `模式: ${name}`;
+            }
+            
+            // 呼叫函式來顯示參數
+            getQueryParams();
+            
             const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
             const videoInput = document.getElementById('videoInput');
