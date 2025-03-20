@@ -202,7 +202,7 @@
                 }).join("\n");
 
                 ffmpeg.FS('writeFile', 'subtitles.srt', new TextEncoder().encode(srtContent));
-                await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt:force_style='Fontsize=24,PrimaryColour=&H00FFFF00'",'-c:v', 'libx264', '-c:a', 'copy', 'subtitled.mp4');
+                await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt:force_style="Fontsize=24,PrimaryColour=&H00FFFF00"','-c:v', 'libx264', '-c:a', 'copy', 'subtitled.mp4');
 
                 const data = ffmpeg.FS('readFile', 'subtitled.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
