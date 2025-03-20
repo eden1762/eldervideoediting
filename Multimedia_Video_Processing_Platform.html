@@ -103,7 +103,7 @@
 
               function getQueryParams() {
                 let params = new URLSearchParams(window.location.search);
-                let name = params.get("name");
+                let name = params.get("functionSelect");
                 console.log(name);
             
                 document.getElementById("output").innerText = `模式: ${name}`;
