@@ -56,7 +56,7 @@
 <body>
 
     <h2>🎥 長者友善 影片剪輯器</h2>
-    <label id="method"></label>
+    <p id="output"></p>
 
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
@@ -104,9 +104,9 @@
               function getQueryParams() {
                 let params = new URLSearchParams(window.location.search);
                 let name = params.get("name");
-                
+                console.log(name);
             
-                document.getElementById("method").innerHTML = `模式: ${name}`;
+                document.getElementById("output").innerText = `模式: ${name}`;
             }
             
             // 呼叫函式來顯示參數
