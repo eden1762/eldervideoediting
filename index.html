@@ -21,12 +21,28 @@
         color:#2E2E2E;        
       }
     </style>
+    <script>
+      function addFunction(name)
+        {
+          var currentFunctions =document.getElementById("functionSelect").value;
+          if(currentFunctions.indexOf(name)== -1)
+             {
+                document.getElementById("functionSelect").value +=name;
+             }
+        }
+      function redirectToPage() {
+    var name = document.getElementById("functionSelect").value;
+    window.location.href = `Multimedia_Video_Processing_Platform.html?functionSelect=${encodeURIComponent(name)}`;
+        }
+    </script>
   </head>
   <body>
     <h1>影片趣</h1>
     <h1>Elder Video Editing</h1>
-    <image class="mainoption" src="eye.png" onclick="window.location.href='Multimedia_Video_Processing_Platform.html'"/>
-      <image class="mainoption" src="ear.png" onclick="window.location.href='Multimedia_Video_Processing_Platform.html'"/>
-        <image class="mainoption" src="hand.png" onclick="window.location.href='Multimedia_Video_Processing_Platform.html'"/>
+    <image class="mainoption" src="eye.png" onclick="addFunction('eye')"/>
+      <image class="mainoption" src="ear.png" onclick="addFunction('ear')"/>
+        <image class="mainoption" src="hand.png" onclick="addFunction('hand')"/>
+          <button onclick="redirectToPage()">入口</button>
+          <input type=hidden id="functionSelect">
   </body>
 </html>
