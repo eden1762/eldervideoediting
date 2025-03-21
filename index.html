@@ -38,10 +38,10 @@
       }
     </style>
     <script>
-    function addFunction(object,name)
+    function addFunction(event,name)
       {
           var currentFunctions =document.getElementById("functionSelect").value;
-          console.log(object);
+          console.log(event);
           if(currentFunctions.indexOf(name)== -1)
            {
               document.getElementById("functionSelect").value +=name;
@@ -50,14 +50,14 @@
           {
             document.getElementById("functionSelect").value.replace(name,"");
           }
-         if(object.classList.contains("mainoptionactive")== -1)
+         if(event.target.classList.contains("mainoptionactive")== -1)
          {
-            object.classList.remove("mainoption");
-           object.classList.add("mainoptionactive");
+            event.target.classList.remove("mainoption");
+           event.target.classList.add("mainoptionactive");
          }else
          {
-           object.classList.remove("mainoptionactive");
-           object.classList.add("mainoption");
+           event.target.classList.remove("mainoptionactive");
+           event.target.classList.add("mainoption");
          }
       }
       function redirectToPage() {
