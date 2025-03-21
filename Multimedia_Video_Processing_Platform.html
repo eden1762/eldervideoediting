@@ -104,9 +104,30 @@
               function getQueryParams() {
                 let params = new URLSearchParams(window.location.search);
                 let name = params.get("functionSelect");
-                console.log(name);
+                  let method = "";
+                    console.log(name);
+                  if(name.indexOf("eye") >-1)
+                  {
+                      method = "視覺";
+                  }
+                   if(name.indexOf("ear") >-1)
+                  {
+                      if(method <> "")
+                      {
+                          method += "+";
+                      }
+                      method += "聽覺";
+                  }
+                  if(name.indexOf("hand") >-1)
+                  {
+                        if(method <> "")
+                      {
+                          method += "+";
+                      }
+                      method += "觸覺";
+                  }
             
-                document.getElementById("output").innerText = `模式: ${name}`;
+                document.getElementById("output").innerText = `${method}模式`;
             }
             
             // 呼叫函式來顯示參數
