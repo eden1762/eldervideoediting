@@ -44,8 +44,11 @@
           if(currentFunctions.indexOf(name)== -1)
              {
                 document.getElementById("functionSelect").value +=name;
-             }
-             if(object.classList.indexOf("mainoptionactive")== -1)
+             }else
+          {
+            document.getElementById("functionSelect").value.replace(name,"");
+          }
+             if(object.classList.contains("mainoptionactive")== -1)
              {
                 object.classList.remove("mainoption");
                object.classList.add("mainoptionactive");
