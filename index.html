@@ -7,7 +7,7 @@
         height:auto;
         border-radius:1vw;
       }
-      .mainoption:active
+      .mainoptionactive
       {
         border:1vw black solid;
       }
@@ -38,12 +38,21 @@
       }
     </style>
     <script>
-      function addFunction(name)
+      function addFunction(object,name)
         {
           var currentFunctions =document.getElementById("functionSelect").value;
           if(currentFunctions.indexOf(name)== -1)
              {
                 document.getElementById("functionSelect").value +=name;
+             }
+             if(object.classList.indexOf("mainoptionactive")== -1)
+             {
+                object.classList.remove("mainoption");
+               object.classList.add("mainoptionactive");
+             }else
+             {
+               object.classList.remove("mainoptionactive");
+               object.classList.add("mainoption");
              }
         }
       function redirectToPage() {
@@ -55,9 +64,9 @@
   <body>
     <h1>影片趣</h1>
     <h1>Elder Video Editing</h1>
-    <image class="mainoption" src="eye.png" onclick="addFunction('eye')"/>
-      <image class="mainoption" src="ear.png" onclick="addFunction('ear')"/>
-        <image class="mainoption" src="hand.png" onclick="addFunction('hand')"/>
+    <image class="mainoption" src="eye.png" onclick="addFunction(this,'eye')"/>
+      <image class="mainoption" src="ear.png" onclick="addFunction(this,'ear')"/>
+        <image class="mainoption" src="hand.png" onclick="addFunction(this,'hand')"/>
           <br>
           <button onclick="redirectToPage()">入口</button>
           <input type=hidden id="functionSelect">
