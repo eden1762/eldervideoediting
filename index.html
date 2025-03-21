@@ -38,30 +38,32 @@
       }
     </style>
     <script>
-      function addFunction(object,name)
-        {
+    function addFunction(object,name)
+      {
           var currentFunctions =document.getElementById("functionSelect").value;
+          console.log(object);
           if(currentFunctions.indexOf(name)== -1)
-             {
-                document.getElementById("functionSelect").value +=name;
-             }else
+           {
+              document.getElementById("functionSelect").value +=name;
+           }
+          else
           {
             document.getElementById("functionSelect").value.replace(name,"");
           }
-             if(object.classList.contains("mainoptionactive")== -1)
-             {
-                object.classList.remove("mainoption");
-               object.classList.add("mainoptionactive");
-             }else
-             {
-               object.classList.remove("mainoptionactive");
-               object.classList.add("mainoption");
-             }
-        }
+         if(object.classList.contains("mainoptionactive")== -1)
+         {
+            object.classList.remove("mainoption");
+           object.classList.add("mainoptionactive");
+         }else
+         {
+           object.classList.remove("mainoptionactive");
+           object.classList.add("mainoption");
+         }
+      }
       function redirectToPage() {
-    var name = document.getElementById("functionSelect").value;
-    window.location.href = `Multimedia_Video_Processing_Platform.html?functionSelect=${encodeURIComponent(name)}`;
-        }
+        var name = document.getElementById("functionSelect").value;
+        window.location.href = `Multimedia_Video_Processing_Platform.html?functionSelect=${encodeURIComponent(name)}`;
+      }
     </script>
   </head>
   <body>
