@@ -154,6 +154,7 @@
             const voiceControlBtn = document.getElementById('voiceControlBtn');
             const exportBtn = document.getElementById('exportBtn');
             const addMusicBtn = document.getElementById('addMusicBtn');
+            const effectsBtn = document.getElementById('effectsBtn');
 
             const waveSurfer = WaveSurfer.create({
                 container: '#waveform',
@@ -168,6 +169,28 @@
                 const videoURL = URL.createObjectURL(videoFile);
                 videoPlayer.src = videoURL;
             });
+
+            effectsBtn.addEventListener("click", async () => {
+    if (!videoFile) {
+        alert("請先剪輯影片！");
+        return;
+    }
+
+    await ffmpeg.load();
+    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+
+    // 加一個簡單特效：黑白處理（你也可以換成其他 FFmpeg 濾鏡）
+    await ffmpeg.run('-i', 'input.mp4', '-vf', 'hue=s=0', '-c:a', 'copy', 'effect.mp4');
+
+    const data = ffmpeg.FS('readFile', 'effect.mp4');
+    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    videoPlayer.src = url;
+    videoPlayer.load();
+    videoPlayer.play();
+
+    videoFile = new File([data.buffer], "effect.mp4", { type: "video/mp4" });
+});
+
 
             addMusicBtn.addEventListener("click", async () => {
                     if (!videoFile) {
