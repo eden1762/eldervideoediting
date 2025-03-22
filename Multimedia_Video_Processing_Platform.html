@@ -12,63 +12,68 @@
             text-align: center;
             background-color: #f4f4f4;
         }
-        h2 {
-            font-size: 24px;
+        .titleName {
+            font-size: 10vw;
+        }
+        .methodName {
+            font-size: 10vw;
+        }
+        .functionName {
+            font-size: 7vw;
         }
         button, input {
-            font-size: 20px;
-            padding: 15px;
-            margin: 10px;
-            width: 80%;
-            max-width: 300px;
+            font-size: 10vw;
+            padding: 0.5vw;
+            margin: 1vw;
+            width: 80vw;
             border: none;
             background-color: #007BFF;
             color: white;
-            border-radius: 10px;
+            border-radius: 3vw;
             cursor: pointer;
         }
         button:hover {
             background-color: #0056b3;
         }
         video {
-            width: 90%;
-            max-width: 600px;
-            margin: 10px 0;
+            width: 90vw;
+            /*max-width: 600vw;*/
+            margin: 10vw 0;
         }
         .hidden { display: none; }
         .subtitle-box {
-            margin-top: 20px;
+            margin-top: 20vw;
         }
         #subtitlePreview {
             background: black;
             color: yellow;
-            font-size: 20px;
-            padding: 5px;
+            font-size: 20vw;
+            padding: 5vwv;
             display: inline-block;
         }
         .audio-visualizer {
-            width: 100%;
-            height: 100px;
+            width: 100vw;
+            height: 100vw;
             background-color: #ddd;
         }
     </style>
 </head>
 <body>
 
-    <h2>🎥 長者友善 影片剪輯器</h2>
-    <p id="output"></p>
+    <span class="titleName">🎥 長者友善 影片剪輯器</span>
+    <span id="output" class="methodName"></span>
 
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
     <video id="videoPlayer" controls></video>
     
-    <h3>✂️ 剪輯影片</h3>
+    <span class="functionName" >✂️ 剪輯影片</span>
     <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
     <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
     <button id="trimBtn">✂️ 剪輯影片</button>
     <a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>
     
-    <h3>💬 添加字幕</h3>
+    <span class="functionName" >💬 添加字幕</span>
     <button id="addSubtitlesBtn">開始添加字幕</button>
     <div id="subtitleSection" class="subtitle-box hidden">
         <label>字幕內容: <input type="text" id="subtitleText"></label>
@@ -81,7 +86,7 @@
     <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
 
     <!-- 字幕即時預覽 -->
-    <p>📺 字幕預覽：</p>
+    <span class="functionName" >📺 字幕預覽：</span>
     <div id="subtitlePreview"></div>
     
     <button id="addMusicBtn">🎵 加音樂</button>
