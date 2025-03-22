@@ -39,9 +39,6 @@
             border-radius: 3vw;
             cursor: pointer;
         }
-        /*button:focus {
-            background-color: #0056b3;
-        }*/
         input[type=number] {
             font-size: 5vw;
             padding: 0.5vw;
@@ -81,15 +78,12 @@
     </style>
 </head>
 <body>
-
     <span class="titleName">長者友善 影片剪輯器</span>
     <hr>
     <span id="output" class="methodName"></span>
-
     <!-- A. 匯入影片 -->
     <input type="file" id="videoInput" accept="video/*">
-    <video id="videoPlayer" controls></video>
-    
+    <video id="videoPlayer" controls></video>    
     <span class="functionName" >✂️ 剪輯影片</span>
     <br>
     <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
@@ -128,43 +122,38 @@
     <br>
     <!-- 語音識別 -->
     <button id="voiceControlBtn">🎙 語音控制</button>
-
     <script>
-       console.log("20250322-2006");
+        console.log("20250322-2006");
         document.addEventListener("DOMContentLoaded", async () => {
-
-              function getQueryParams() {
+            function getQueryParams() {
                 let params = new URLSearchParams(window.location.search);
                 let name = params.get("functionSelect");
-                  let method = "";
-                    console.log(name);
-                  if(name.indexOf("eye") >-1)
-                  {
-                      method = "視覺";
-                  }
-                   if(name.indexOf("ear") >-1)
-                  {
-                      if(method != "")
-                      {
-                          method += "+";
-                      }
-                      method += "聽覺";
-                  }
-                  if(name.indexOf("hand") >-1)
-                  {
-                        if(method != "")
-                      {
-                          method += "+";
-                      }
-                      method += "觸覺";
-                  }
-            
+                let method = "";
+                console.log(name);
+                if(name.indexOf("eye") >-1)
+                {
+                    method = "視覺";
+                }
+                if(name.indexOf("ear") >-1)
+                {
+                    if(method != "")
+                    {
+                        method += "+";
+                    }
+                    method += "聽覺";
+                }
+                if(name.indexOf("hand") >-1)
+                {
+                    if(method != "")
+                    {
+                        method += "+";
+                    }
+                    method += "觸覺";
+                }
                 document.getElementById("output").innerText = `${method}模式`;
             }
-            
             // 呼叫函式來顯示參數
             getQueryParams();
-            
             const { createFFmpeg, fetchFile } = window.FFmpeg;
             const ffmpeg = createFFmpeg({ log: true });
             const videoInput = document.getElementById('videoInput');
@@ -187,7 +176,6 @@
             const exportBtn = document.getElementById('exportBtn');
             const addMusicBtn = document.getElementById('addMusicBtn');
             const effectsBtn = document.getElementById('effectsBtn');
-
             const waveSurfer = WaveSurfer.create({
                 container: '#waveform',
                 waveColor: 'blue',
@@ -201,67 +189,59 @@
                 const videoURL = URL.createObjectURL(videoFile);
                 videoPlayer.src = videoURL;
             });
-
             effectsBtn.addEventListener("click", async () => {
-    if (!videoFile) {
-        alert("請先剪輯影片！");
-        return;
-    }
-
-    await ffmpeg.load();
-    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-
-    // 加一個簡單特效：黑白處理（你也可以換成其他 FFmpeg 濾鏡）
-    await ffmpeg.run('-i', 'input.mp4', '-vf', 'hue=s=0', '-c:a', 'copy', 'effect.mp4');
-
-    const data = ffmpeg.FS('readFile', 'effect.mp4');
-    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-    videoPlayer.src = url;
-    videoPlayer.load();
-    videoPlayer.play();
-
-    videoFile = new File([data.buffer], "effect.mp4", { type: "video/mp4" });
-});
-
-
+                if (!videoFile) {
+                    alert("請先剪輯影片！");
+                    return;
+                }
+                await ffmpeg.load();
+                ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+        
+                // 加一個簡單特效：黑白處理（你也可以換成其他 FFmpeg 濾鏡）
+                await ffmpeg.run('-i', 'input.mp4', '-vf', 'hue=s=0', '-c:a', 'copy', 'effect.mp4');
+        
+                const data = ffmpeg.FS('readFile', 'effect.mp4');
+                const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+                videoPlayer.src = url;
+                videoPlayer.load();
+                videoPlayer.play();
+        
+                videoFile = new File([data.buffer], "effect.mp4", { type: "video/mp4" });
+            });
             addMusicBtn.addEventListener("click", async () => {
-                    if (!videoFile) {
-                        alert("請先剪輯影片！");
-                        return;
-                    }
-                
-                    await ffmpeg.load();
-                    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+                if (!videoFile) {
+                    alert("請先剪輯影片！");
+                    return;
+                }
+                await ffmpeg.load();
+                ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+                // 假設內建一個音樂檔 bgm.mp3，也可以改成 input 上傳方式
+                const bgmResponse = await fetch('bgm.mp3'); // 請自行提供
+                const bgmBlob = await bgmResponse.blob();
+                ffmpeg.FS('writeFile', 'bgm.mp3', await fetchFile(bgmBlob));
                     
-                    // 假設內建一個音樂檔 bgm.mp3，也可以改成 input 上傳方式
-                    const bgmResponse = await fetch('bgm.mp3'); // 請自行提供
-                    const bgmBlob = await bgmResponse.blob();
-                    ffmpeg.FS('writeFile', 'bgm.mp3', await fetchFile(bgmBlob));
-                
-                    await ffmpeg.run('-i', 'input.mp4', '-i', 'bgm.mp3', '-c:v', 'copy', '-c:a', 'aac', '-shortest', 'music.mp4');
-                
-                    const data = ffmpeg.FS('readFile', 'music.mp4');
-                    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-                    videoPlayer.src = url;
-                    videoPlayer.load();
-                    videoPlayer.play();
-                
-                    videoFile = new File([data.buffer], "music.mp4", { type: "video/mp4" });
-                });
-
+                await ffmpeg.run('-i', 'input.mp4', '-i', 'bgm.mp3', '-c:v', 'copy', '-c:a', 'aac', '-shortest', 'music.mp4');
+                    
+                const data = ffmpeg.FS('readFile', 'music.mp4');
+                const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+                videoPlayer.src = url;
+                videoPlayer.load();
+                videoPlayer.play();
+                    
+                videoFile = new File([data.buffer], "music.mp4", { type: "video/mp4" });
+            });
+    
             exportBtn.addEventListener("click", () => {
-                    if (!videoFile) {
-                        alert("尚未有可下載的影片");
-                        return;
-                    }
-                    const finalUrl = URL.createObjectURL(videoFile);
-                    const link = document.createElement("a");
-                    link.href = finalUrl;
-                    link.download = "final_output.mp4";
-                    link.click();
-                });
-            
-
+                if (!videoFile) {
+                    alert("尚未有可下載的影片");
+                    return;
+                }
+                const finalUrl = URL.createObjectURL(videoFile);
+                const link = document.createElement("a");
+                link.href = finalUrl;
+                link.download = "final_output.mp4";
+                link.click();
+            });
             trimBtn.addEventListener('click', async () => {
                 if (!videoFile) {
                     alert("請先上傳影片！");
@@ -273,13 +253,13 @@
                 //    alert("請先上傳影片！");
                 //    return;
                 //}
-
+    
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
                 const start = startTimeInput.value;
                 const end = endTimeInput.value;
                 //await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:05', '-to', '00:00:10', '-c', 'copy', 'output.mp4');
                 await ffmpeg.run('-i', 'input.mp4', '-ss', start, '-to', end, '-c', 'copy', 'output.mp4');
-
+    
                 const data = ffmpeg.FS('readFile', 'output.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
                 //downloadLink.href = url;
@@ -293,19 +273,19 @@
                 //subtitleSection.style.display = "block";
                 subtitleSection.classList.toggle("hidden");
             });
-
+    
             applySubtitlesBtn.addEventListener('click', () => {
                 const text = subtitleText.value;
                 const start = subtitleStart.value;
                 const end = subtitleEnd.value;
-
+    
                 subtitles.push({ text, start, end });
                 
                  let listItem = document.createElement("li");
                 listItem.textContent = `(${start}s - ${end}s) ${text}`;
                 subtitleList.appendChild(listItem);
             });
-
+    
             generateSubtitledVideo.addEventListener('click', async () => {
                 if (!videoFile) {
                     alert("請先上傳影片！");
@@ -313,26 +293,26 @@
                 }
                 await ffmpeg.load();
                 ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
-
+    
                  let srtContent = subtitles.map((sub, index) => {
                     let startTime = new Date(sub.start * 1000).toISOString().substr(11, 8).replace('.', ',');
                     let endTime = new Date(sub.end * 1000).toISOString().substr(11, 8).replace('.', ',');
                     return `${index + 1}\n${startTime} --> ${endTime}\n${sub.text}\n`;
                 }).join("\n");
-
+    
                 ffmpeg.FS('writeFile', 'subtitles.srt', new TextEncoder().encode(srtContent));
                 await ffmpeg.run('-i', 'input.mp4', '-vf', 'subtitles=subtitles.srt:force_style="Fontsize=24,PrimaryColour=&H00FFFF00"','-c:v', 'libx264', '-c:a', 'copy', 'subtitled.mp4');
-
+    
                 const data = ffmpeg.FS('readFile', 'subtitled.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
                 subtitledDownloadLink.href = url;
                 subtitledDownloadLink.classList.remove('hidden');
             });
-
+    
             voiceControlBtn.addEventListener('click', () => {
                 alert("語音識別尚未啟用，請手動輸入字幕！");
             });
-
+    
             // 🎤 語音識別
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRecognition) {
@@ -368,6 +348,5 @@
             }
         });
     </script>
-
 </body>
 </html>
