@@ -153,6 +153,7 @@
             const subtitlePreview = document.getElementById('subtitlePreview');
             const voiceControlBtn = document.getElementById('voiceControlBtn');
             const exportBtn = document.getElementById('exportBtn');
+            const addMusicBtn = document.getElementById('addMusicBtn');
 
             const waveSurfer = WaveSurfer.create({
                 container: '#waveform',
@@ -167,6 +168,31 @@
                 const videoURL = URL.createObjectURL(videoFile);
                 videoPlayer.src = videoURL;
             });
+
+            addMusicBtn.addEventListener("click", async () => {
+                    if (!videoFile) {
+                        alert("請先剪輯影片！");
+                        return;
+                    }
+                
+                    await ffmpeg.load();
+                    ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(videoFile));
+                    
+                    // 假設內建一個音樂檔 bgm.mp3，也可以改成 input 上傳方式
+                    const bgmResponse = await fetch('bgm.mp3'); // 請自行提供
+                    const bgmBlob = await bgmResponse.blob();
+                    ffmpeg.FS('writeFile', 'bgm.mp3', await fetchFile(bgmBlob));
+                
+                    await ffmpeg.run('-i', 'input.mp4', '-i', 'bgm.mp3', '-c:v', 'copy', '-c:a', 'aac', '-shortest', 'music.mp4');
+                
+                    const data = ffmpeg.FS('readFile', 'music.mp4');
+                    const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+                    videoPlayer.src = url;
+                    videoPlayer.load();
+                    videoPlayer.play();
+                
+                    videoFile = new File([data.buffer], "music.mp4", { type: "video/mp4" });
+                });
 
             exportBtn.addEventListener("click", () => {
                     if (!videoFile) {
