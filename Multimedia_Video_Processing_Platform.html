@@ -152,6 +152,7 @@
             const subtitledDownloadLink = document.getElementById('subtitledDownloadLink');
             const subtitlePreview = document.getElementById('subtitlePreview');
             const voiceControlBtn = document.getElementById('voiceControlBtn');
+            const exportBtn = document.getElementById('exportBtn');
 
             const waveSurfer = WaveSurfer.create({
                 container: '#waveform',
@@ -166,6 +167,18 @@
                 const videoURL = URL.createObjectURL(videoFile);
                 videoPlayer.src = videoURL;
             });
+
+            exportBtn.addEventListener("click", () => {
+                    if (!videoFile) {
+                        alert("尚未有可下載的影片");
+                        return;
+                    }
+                    const finalUrl = URL.createObjectURL(videoFile);
+                    const link = document.createElement("a");
+                    link.href = finalUrl;
+                    link.download = "final_output.mp4";
+                    link.click();
+                });
             
 
             trimBtn.addEventListener('click', async () => {
@@ -188,8 +201,12 @@
 
                 const data = ffmpeg.FS('readFile', 'output.mp4');
                 const url = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
-                downloadLink.href = url;
-                downloadLink.classList.remove('hidden');
+                //downloadLink.href = url;
+                //downloadLink.classList.remove('hidden');
+                videoPlayer.src = url;
+                videoPlayer.load();
+                videoPlayer.play();
+                videoFile = new File([data.buffer], "output.mp4", { type: "video/mp4" });
             });
             addSubtitlesBtn.addEventListener('click', () => {
                 //subtitleSection.style.display = "block";
