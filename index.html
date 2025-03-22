@@ -51,6 +51,10 @@ function addFunction(event, name) {
   } else {
     input.value = currentFunctions.replace(name, "");
   }
+  if(input.value != "")
+  {
+    document.getElementById("redirectToPage").style.visibility = "visible";
+  }
 
   // 切換 class
   if (!event.target.classList.contains("mainoptionactive")) {
@@ -75,7 +79,7 @@ function addFunction(event, name) {
       <img class="mainoption" src="ear.png" onclick="addFunction(event,'ear')"/>
         <img class="mainoption" src="hand.png" onclick="addFunction(event,'hand')"/>
           <br>
-          <button onclick="redirectToPage()">入口</button>
+          <button id="redirectToPage" onclick="redirectToPage()" style="visibility:hidden;">入口</button>
           <input type=hidden id="functionSelect">
   </body>
 </html>
