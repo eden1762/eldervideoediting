@@ -38,28 +38,27 @@
       }
     </style>
     <script>
-    function addFunction(event,name)
-      {
-          var currentFunctions =document.getElementById("functionSelect").value;
-          console.log(event);
-          if(currentFunctions.indexOf(name)== -1)
-           {
-              document.getElementById("functionSelect").value +=name;
-           }
-          else
-          {
-            document.getElementById("functionSelect").value.replace(name,"");
-          }
-         if(event.target.classList.contains("mainoptionactive")== -1)
-         {
-            event.target.classList.remove("mainoption");
-           event.target.classList.add("mainoptionactive");
-         }else
-         {
-           event.target.classList.remove("mainoptionactive");
-           event.target.classList.add("mainoption");
-         }
-      }
+function addFunction(event, name) {
+  var input = document.getElementById("functionSelect");
+  var currentFunctions = input.value;
+
+  // 加入或移除 name
+  if (currentFunctions.indexOf(name) === -1) {
+    input.value += name;
+  } else {
+    input.value = currentFunctions.replace(name, "");
+  }
+
+  // 切換 class
+  if (!event.target.classList.contains("mainoptionactive")) {
+    event.target.classList.remove("mainoption");
+    event.target.classList.add("mainoptionactive");
+  } else {
+    event.target.classList.remove("mainoptionactive");
+    event.target.classList.add("mainoption");
+  }
+}
+
       function redirectToPage() {
         var name = document.getElementById("functionSelect").value;
         window.location.href = `Multimedia_Video_Processing_Platform.html?functionSelect=${encodeURIComponent(name)}`;
@@ -69,9 +68,9 @@
   <body>
     <h1>影片趣</h1>
     <h1>Elder Video Editing</h1>
-    <image class="mainoption" src="eye.png" onclick="addFunction(event,'eye')"/>
-      <image class="mainoption" src="ear.png" onclick="addFunction(event,'ear')"/>
-        <image class="mainoption" src="hand.png" onclick="addFunction(event,'hand')"/>
+    <img class="mainoption" src="eye.png" onclick="addFunction(event,'eye')"/>
+      <img class="mainoption" src="ear.png" onclick="addFunction(event,'ear')"/>
+        <img class="mainoption" src="hand.png" onclick="addFunction(event,'hand')"/>
           <br>
           <button onclick="redirectToPage()">入口</button>
           <input type=hidden id="functionSelect">
