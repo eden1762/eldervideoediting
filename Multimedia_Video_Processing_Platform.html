@@ -150,7 +150,7 @@
  
     </div>
     <script>
-        console.log("20250323-1200");
+        console.log("20250323-1201");
         function toggleSelect(item)
         {
             console.log("toggle");
@@ -159,10 +159,12 @@
             if(document.getElementsByClassName("toogletarget_" + item)[0].style.height!="0px")
             {
                 document.getElementsByClassName("toogletarget_" + item)[0].style.height="0px";
+                 document.getElementsByClassName("toogletarget_" + item)[0].style.visibility="hidden";
             }
             else
             {
                 document.getElementsByClassName("toogletarget_" + item)[0].style.height="auto";
+                document.getElementsByClassName("toogletarget_" + item)[0].style.visibility="";
             }
         }
         document.addEventListener("DOMContentLoaded", async () => {
