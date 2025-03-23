@@ -103,8 +103,8 @@
         <br>        
         <!-- 語音識別 -->
         <button id="voiceControlBtn">🎙 語音控制</button><br>
-        <span class="functionName" >✂️ 剪輯影片</span><br>
-        <div class="functionPanel" >            
+        <span class="functionName toogletitle_1" onlick="toggleSelect('1');" >✂️ 剪輯影片</span><br>
+        <div class="functionPanel toogletarget_1" >            
             <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
             <br>
             <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
@@ -113,39 +113,35 @@
             <!--<a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>-->
         </div>
         <br>
-        <span class="functionName" >💬 添加字幕</span>
+        <span class="functionName toogletitle_2"  onlick="toggleSelect('2');">💬 添加字幕</span>
         <br>
-        <div class="functionPanel" >
-        <button id="addSubtitlesBtn">開始添加字幕</button>
-        <div id="subtitleSection" class="subtitle-box hidden">
-            <label>字幕內容: <input type="text" id="subtitleText"></label>
-            <label>開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
-            <label>結束時間 (秒): <input type="number" id="subtitleEnd" min="0"></label>
-            <button id="applySubtitlesBtn">新增字幕</button>
-            <ul id="subtitleList"></ul>
-        </div>
-        <button id="generateSubtitledVideo">📼 產生含字幕影片</button>
-        <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
-        </div>
-        <br>
-        <div class="functionPanel" >
-        <!-- 字幕即時預覽 -->
-        <span class="functionName" >📺 字幕預覽：</span>
-        <br>
-        <div id="subtitlePreview"></div>
+        <div class="functionPanel toogletarget_2" >
+            <button id="addSubtitlesBtn">開始添加字幕</button>
+            <div id="subtitleSection" class="subtitle-box hidden">
+                <label>字幕內容: <input type="text" id="subtitleText"></label>
+                <label>開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
+                <label>結束時間 (秒): <input type="number" id="subtitleEnd" min="0"></label>
+                <button id="applySubtitlesBtn">新增字幕</button>
+                <ul id="subtitleList"></ul>
+            </div>
+            <button id="generateSubtitledVideo">📼 產生含字幕影片</button>
+            <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
+            <span class="functionName toogletitle_1" >📺 字幕預覽：</span>
+            <br>
+            <div id="subtitlePreview"></div>
         </div>
         <br>
-        <span class="functionName" >🎵 加音樂：</span>
-        <div class="functionPanel" >
-        <button id="addMusicBtn">🎵 加音樂</button>
+        <span class="functionName toogletitle_3"  onlick="toggleSelect('3');">🎵 加音樂：</span>
+        <div class="functionPanel toogletarget_3" >
+            <button id="addMusicBtn">🎵 加音樂</button>
         </div>
-        <span class="functionName" >🎙 加旁白：</span>
-        <div class="functionPanel" >    
+        <span class="functionName toogletitle_4"  onlick="toggleSelect('4');">🎙 加旁白：</span>
+        <div class="functionPanel toogletarget_4" >    
         <button id="addNarrationBtn">🎙 加旁白</button>
         </div>
-        <span class="functionName" >✨ 加特效：</span>
-        <div class="functionPanel" > 
-        <button id="effectsBtn">✨ 加特效</button>
+        <span class="functionName toogletitle_5"  onlick="toggleSelect('5');">✨ 加特效：</span>
+        <div class="functionPanel toogletarget_5" > 
+            <button id="effectsBtn">✨ 加特效</button>
         </div>       
         <button id="exportBtn">📤 完成影片</button>        
         <br>        
@@ -182,7 +178,7 @@
                     method += "觸覺";
                 }
                 document.getElementById("output").innerText = `${method}模式`;
-            }
+            }            
             // 呼叫函式來顯示參數
             getQueryParams();
             const { createFFmpeg, fetchFile } = window.FFmpeg;
@@ -212,7 +208,7 @@
                 waveColor: 'blue',
                 progressColor: 'red',
                 height: 80
-            });
+            });            
             let videoFile = null;
             let subtitles = [];
             videoInput.addEventListener('change', () => {
@@ -376,8 +372,19 @@
             } else {
                 voiceControlBtn.disabled = true;
                 alert("此瀏覽器不支援語音控制");
-            }
+            }            
         });
+        function toggleSelect(item)
+        {
+            if(getElementsByClassName("toogletarget_" + item)[0].style.height!="0")
+            {
+                getElementsByClassName("toogletarget_" + item)[0].style.height="0";
+            }
+            else
+            {
+                getElementsByClassName("toogletarget_" + item)[0].style.height="auto";
+            }
+        }
     </script>
 </body>
 </html>
