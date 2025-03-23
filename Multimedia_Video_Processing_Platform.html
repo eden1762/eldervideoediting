@@ -150,7 +150,18 @@
  
     </div>
     <script>
-        console.log("20250322-2006");
+        console.log("20250323-1154");
+        function toggleSelect(item)
+        {
+            if(getElementsByClassName("toogletarget_" + item)[0].style.height!="0")
+            {
+                getElementsByClassName("toogletarget_" + item)[0].style.height="0";
+            }
+            else
+            {
+                getElementsByClassName("toogletarget_" + item)[0].style.height="auto";
+            }
+        }
         document.addEventListener("DOMContentLoaded", async () => {
             function getQueryParams() {
                 let params = new URLSearchParams(window.location.search);
@@ -374,17 +385,7 @@
                 alert("此瀏覽器不支援語音控制");
             }            
         });
-        function toggleSelect(item)
-        {
-            if(getElementsByClassName("toogletarget_" + item)[0].style.height!="0")
-            {
-                getElementsByClassName("toogletarget_" + item)[0].style.height="0";
-            }
-            else
-            {
-                getElementsByClassName("toogletarget_" + item)[0].style.height="auto";
-            }
-        }
+
     </script>
 </body>
 </html>
