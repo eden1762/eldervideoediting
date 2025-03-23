@@ -17,6 +17,7 @@
         .titleName {
             font-size: 6vw;
             color:#FDF6E3;
+            
         }
         .methodName {
             font-size: 10vw;
@@ -25,6 +26,7 @@
         .functionName {
             font-size: 7vw;
             color:#FDF6E3;
+            border:0.5vw #FFA500 solid;
         }
         #videoInput
         {
@@ -155,13 +157,13 @@
  
     </div>
     <script>
-        console.log("20250323-1203");
+        console.log("20250323-1205");
         function toggleSelect(item)
         {
             console.log("toggle");
             console.log(item);
             console.log(document.getElementsByClassName("toogletarget_" + item)[0].style.height);
-            if(document.getElementsByClassName("toogletarget_" + item)[0].style.height!="0px")
+            if(document.getElementsByClassName("toogletarget_" + item)[0].style.height!="0px" || document.getElementsByClassName("toogletarget_" + item)[0].style.height!="")
             {
                 document.getElementsByClassName("toogletarget_" + item)[0].style.height="0px";
                  document.getElementsByClassName("toogletarget_" + item)[0].style.visibility="hidden";
