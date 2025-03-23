@@ -88,6 +88,11 @@
             overflow-y:auto;
             overflow-x:hidden;
         }
+        .functionPanel
+        {
+            height:0px;
+            visibility:hidden;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +169,7 @@
             else
             {
                 document.getElementsByClassName("toogletarget_" + item)[0].style.height="auto";
-                document.getElementsByClassName("toogletarget_" + item)[0].style.visibility="";
+                document.getElementsByClassName("toogletarget_" + item)[0].style.visibility="visible";
             }
         }
         document.addEventListener("DOMContentLoaded", async () => {
