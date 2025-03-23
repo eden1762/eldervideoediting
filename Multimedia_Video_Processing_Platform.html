@@ -97,18 +97,25 @@
         <span id="output" class="methodName"></span>
         <!-- A. 匯入影片 -->
         <input type="file" id="videoInput" accept="video/*">
-        <video id="videoPlayer" controls></video>    
-        <span class="functionName" >✂️ 剪輯影片</span>
-        <br>
-        <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
-        <br>
-        <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
-        <br>
-        <button id="trimBtn">✂️ 剪輯影片</button>
-        <!--<a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>-->
+        <video id="videoPlayer" controls></video>
+        <!-- 音頻視覺化 -->        
+        <div id="waveform" class="audio-visualizer"></div>
+        <br>        
+        <!-- 語音識別 -->
+        <button id="voiceControlBtn">🎙 語音控制</button>
+        <span class="functionName" >✂️ 剪輯影片</span><br>
+        <div class="functionPanel" >            
+            <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
+            <br>
+            <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
+            <br>
+            <button id="trimBtn">✂️ 剪輯影片</button>
+            <!--<a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>-->
+        </div>
         <br>
         <span class="functionName" >💬 添加字幕</span>
         <br>
+        <div class="functionPanel" >
         <button id="addSubtitlesBtn">開始添加字幕</button>
         <div id="subtitleSection" class="subtitle-box hidden">
             <label>字幕內容: <input type="text" id="subtitleText"></label>
@@ -119,24 +126,32 @@
         </div>
         <button id="generateSubtitledVideo">📼 產生含字幕影片</button>
         <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
+        </div>
         <br>
+        <div class="functionPanel" >
         <!-- 字幕即時預覽 -->
         <span class="functionName" >📺 字幕預覽：</span>
         <br>
         <div id="subtitlePreview"></div>
+        </div>
         <br>
+        <span class="functionName" >🎵 加音樂：</span>
+        <div class="functionPanel" >
         <button id="addMusicBtn">🎵 加音樂</button>
+        </div>
+        <span class="functionName" >🎙 加旁白：</span>
+        <div class="functionPanel" >    
         <button id="addNarrationBtn">🎙 加旁白</button>
+        </div>
+        <span class="functionName" >✨ 加特效：</span>
+        <div class="functionPanel" > 
         <button id="effectsBtn">✨ 加特效</button>
-        <button id="exportBtn">📤 完成影片</button>
-        <br>
+        </div>       
+        <button id="exportBtn">📤 完成影片</button>        
+        <br>        
         <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>
-        <br>
-        <!-- 音頻視覺化 -->
-        <div id="waveform" class="audio-visualizer"></div>
-        <br>
-        <!-- 語音識別 -->
-        <button id="voiceControlBtn">🎙 語音控制</button>
+        
+ 
     </div>
     <script>
         console.log("20250322-2006");
