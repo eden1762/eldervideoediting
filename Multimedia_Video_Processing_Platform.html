@@ -26,7 +26,7 @@
         .functionName {
             font-size: 7vw;
             color:#FDF6E3;
-            border:0.5vw #FFA500 solid;
+            border:0.5vw #FDF6E3 solid;
         }
         #videoInput
         {
@@ -38,7 +38,7 @@
             margin: 1vw;
             width: 60vw;
             border: none;
-            background-color: #FFA500;
+            background-color: #FDF6E3;
             color: white;
             border-radius: 3vw;
             cursor: pointer;
@@ -108,12 +108,8 @@
         <!-- 音頻視覺化 -->        
         <div id="waveform" class="audio-visualizer"></div>
         <br>        
-        <!-- 語音識別 -->
-        <span class="functionName toogletitle_6" onclick="toggleSelect('6');" >✂️ 語音識別</span><br>
-        <div class="functionPanel toogletarget_6" >         
-        <button id="voiceControlBtn">🎙 語音控制</button><br>
-        </div>
-        <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️ 剪輯影片</span><br>
+        
+        <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
         <div class="functionPanel toogletarget_1" >            
             <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
             <br>
@@ -152,7 +148,12 @@
         <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨ 加特效：</span>
         <div class="functionPanel toogletarget_5" > 
             <button id="effectsBtn">✨ 加特效</button>
-        </div>       
+        </div> 
+        <!-- 語音識別 -->
+        <span class="functionName toogletitle_6" onclick="toggleSelect('6');" >🎙️語音識別</span><br>
+        <div class="functionPanel toogletarget_6" >         
+        <button id="voiceControlBtn">🎙 語音控制</button><br>
+        </div>
         <button id="exportBtn">📤 完成影片</button>        
         <br>        
         <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>
