@@ -97,7 +97,7 @@
         {
             height:0px;
            visibility:hidden;
-            border: #FDF6E3 0.5vw solid;
+            border: #FDF6E3 0.5vw solid;            
         }
     </style>
 </head>
@@ -108,11 +108,9 @@
         <span id="output" class="methodName"></span>
         <!-- A. 匯入影片 -->
         <input type="file" id="videoInput" accept="video/*">
-        <video id="videoPlayer" controls></video>
-        <!-- 音頻視覺化 -->        
-        <div id="waveform" class="audio-visualizer"></div>
-        <br>        
-        
+        <video id="videoPlayer" controls></video>       
+        <button id="exportBtn">📤 完成影片</button> 
+        <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>        
         <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
         <div class="functionPanel toogletarget_1" >            
             <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
@@ -124,7 +122,6 @@
         </div>
         <br>
         <span class="functionName toogletitle_2"  onclick="toggleSelect('2');">💬 添加字幕</span>
-        <br>
         <div class="functionPanel toogletarget_2" >
             <button id="addSubtitlesBtn">開始添加字幕</button>
             <div id="subtitleSection" class="subtitle-box hidden">
@@ -140,7 +137,6 @@
             <br>
             <div id="subtitlePreview"></div>
         </div>
-        <br>
         <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵 加音樂：</span>
         <div class="functionPanel toogletarget_3" >
             <button id="addMusicBtn">🎵 加音樂</button>
@@ -158,9 +154,12 @@
         <div class="functionPanel toogletarget_6" >         
         <button id="voiceControlBtn">🎙 語音控制</button><br>
         </div>
-        <button id="exportBtn">📤 完成影片</button>        
-        <br>        
-        <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>
+         <!-- 音頻視覺化 -->  
+        <span class="functionName toogletitle_7" onclick="toggleSelect('7');" >🎶音頻視覺化</span><br>
+        <div class="functionPanel toogletarget_7" >         
+        <div id="waveform" class="audio-visualizer"></div>
+        </div>
+        
         
  
     </div>
