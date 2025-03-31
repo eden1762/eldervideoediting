@@ -121,49 +121,50 @@
         <!-- A. 匯入影片 -->
         <input type="file" id="videoInput" accept="video/*">
         <video id="videoPlayer" controls></video>       
-        <button id="exportBtn">📤 完成影片</button> 
-        <a id="downloadLink" class="hidden" download="output.mp4">📥 下載影片</a>        
+        <button id="exportBtn">📤完成影片</button> 
+        <a id="downloadLink" class="hidden" download="output.mp4">📥下載影片</a>        
         <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
         <div class="functionPanel toogletarget_1" >            
-            <label>開始時間 (秒): <input type="number" id="startTime" min="0" value="0"></label>
+            <label>開始時間(秒)<input type="number" id="startTime" min="0" value="0"></label>
             <br>
-            <label>結束時間 (秒): <input type="number" id="endTime" min="0" value="5"></label>
+            <label>結束時間(秒)<input type="number" id="endTime" min="0" value="5"></label>
             <br>
-            <button id="trimBtn">✂️ 剪輯影片</button>
-            <!--<a id="downloadLink" class="hidden" download="output.mp4">📥 下載剪輯影片</a>-->
+            <button id="trimBtn">✂️剪輯影片</button>
+            <!--<a id="downloadLink" class="hidden" download="output.mp4">📥下載剪輯影片</a>-->
         </div>
-        <span class="functionName toogletitle_2"  onclick="toggleSelect('2');">💬 添加字幕</span>
+        <span class="functionName toogletitle_2"  onclick="toggleSelect('2');">💬添加字幕</span>
         <div class="functionPanel toogletarget_2" >
             <button id="addSubtitlesBtn">開始添加字幕</button>
             <div id="subtitleSection" class="subtitle-box hidden">
-                <label>字幕內容: <input type="text" id="subtitleText"></label>
-                <label>開始時間 (秒): <input type="number" id="subtitleStart" min="0"></label>
-                <label>結束時間 (秒): <input type="number" id="subtitleEnd" min="0"></label>
+                <label>字幕內容<input type="text" id="subtitleText"></label>
+                <label>開始時間(秒)<input type="number" id="subtitleStart" min="0"></label>
+                <label>結束時間(秒)<input type="number" id="subtitleEnd" min="0"></label>
                 <button id="applySubtitlesBtn">新增字幕</button>
                 <ul id="subtitleList"></ul>
             </div>
-            <button id="generateSubtitledVideo">📼 產生含字幕影片</button>
-            <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥 下載含字幕影片</a>
-            <span>📺 字幕預覽：</span>
+            <button id="generateSubtitledVideo">📼產生含字幕影片</button>
+            <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥下載含字幕影片</a>
+            <br>
+            <span>📺字幕預覽</span>
             <br>
             <div id="subtitlePreview"></div>
         </div>
-        <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵 加音樂：</span>
+        <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵加音樂</span>
         <div class="functionPanel toogletarget_3" >
-            <button id="addMusicBtn">🎵 加音樂</button>
+            <button id="addMusicBtn">🎵加音樂</button>
         </div>
-        <span class="functionName toogletitle_4"  onclick="toggleSelect('4');">🎙 加旁白：</span>
+        <span class="functionName toogletitle_4"  onclick="toggleSelect('4');">🎙加旁白</span>
         <div class="functionPanel toogletarget_4" >    
-        <button id="addNarrationBtn">🎙 加旁白</button>
+        <button id="addNarrationBtn">🎙加旁白</button>
         </div>
-        <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨ 加特效：</span>
+        <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨加特效</span>
         <div class="functionPanel toogletarget_5" > 
-            <button id="effectsBtn">✨ 加特效</button>
+            <button id="effectsBtn">✨加特效</button>
         </div> 
         <!-- 語音識別 -->
         <span class="functionName toogletitle_6" onclick="toggleSelect('6');" >🎙️語音識別</span><br>
         <div class="functionPanel toogletarget_6" >         
-        <button id="voiceControlBtn">🎙 語音控制</button><br>
+        <button id="voiceControlBtn">🎙語音控制</button><br>
         </div>
          <!-- 音頻視覺化 -->  
         <span class="functionName toogletitle_7" onclick="toggleSelect('7');" >🎶音頻視覺化</span><br>
