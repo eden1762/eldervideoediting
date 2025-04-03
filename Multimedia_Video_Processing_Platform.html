@@ -47,6 +47,7 @@
         #videoInput
         {
             color:#FDF6E3;
+            width: 100%;
         }
         button {
             font-size: 5vw;
@@ -131,19 +132,20 @@
         }
         #exportBtn
         {
-            width:80vw;
+            width: 100%;
             font-weight:bolder;
         }
     </style>
 </head>
 <body>
+     <video id="videoPlayer" controls></video>  
     <div class="tooldesk">
         <span class="titleName">長者友善 影片剪輯器</span>
         <hr>
         <span id="output" class="methodName"></span>
         <!-- A. 匯入影片 -->
         <input type="file" id="videoInput" accept="video/*">
-        <video id="videoPlayer" controls></video>       
+            
         <button id="exportBtn">📤完成影片</button> 
         <a id="downloadLink" class="hidden" download="output.mp4">📥下載影片</a>        
         <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
