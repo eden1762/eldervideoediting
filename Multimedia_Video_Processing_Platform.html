@@ -23,6 +23,37 @@
             object-fit: contain;
             z-index: 1;
         }
+        /*video {
+            width: 90vw;*/
+            /*max-width: 600vw;*/
+            /*margin: 10vw 0;
+        }*/
+        .tooldesk
+        {
+            /*margin-left:5vw;
+            margin-right:5vw;
+            max-height:95vh;
+            overflow-y:auto;
+            overflow-x:hidden;  */ 
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 35vw;
+            max-height: 100vh;
+            overflow-y: auto;
+            padding: 2vw;
+            background-color: rgba(45, 45, 45, 0.85);
+            z-index: 2;
+        }
+        .tooldesk * {
+            display: block;
+            margin-bottom: 2vw;
+        }
+        #videoInput
+        {
+            color:#FDF6E3;
+            width: 100%;
+        }
         .titleName {
             font-size: 6vw;
             color:#FDF6E3;
@@ -33,27 +64,31 @@
             font-size: 10vw;
             color:#FDF6E3;
             font-weight:bolder;
+            width:35vw;
         }
         .functionName {
             font-size: 7vw;
             color:#2D2D2D;
-            width:80vw;
+            width:35vw;
             text-align:center;
             background-color:#FDF6E3;
             display:inline-block;
             font-weight:bolder;
             cursor: pointer;
         }
-        #videoInput
+        .functionPanel
         {
-            color:#FDF6E3;
-            width: 100%;
+            height:0px;
+            visibility:hidden;
+            border: #FDF6E3 0.5vw solid;    
+            font-weight:bolder;
         }
+
         button {
             font-size: 5vw;
             padding: 0.5vw;
             margin: 1vw;
-            width: 60vw;
+            width: 35vw;
             border: #FDF6E3 0.5vw solid;
             background-color: #2D2D2D;
             color: #FDF6E3;
@@ -75,11 +110,7 @@
             text-align:right;
             font-weight:bolder;
         }
-        video {
-            width: 90vw;
-            /*max-width: 600vw;*/
-            margin: 10vw 0;
-        }
+
         .hidden { display: none; }
         .subtitle-box {
             margin-top: 20vw;
@@ -102,34 +133,9 @@
             font-size: 4vw;
             font-weight:bolder;
         }
-        .tooldesk
-        {
-            /*margin-left:5vw;
-            margin-right:5vw;
-            max-height:95vh;
-            overflow-y:auto;
-            overflow-x:hidden;  */ 
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 35vw;
-            max-height: 100vh;
-            overflow-y: auto;
-            padding: 2vw;
-            background-color: rgba(45, 45, 45, 0.85);
-            z-index: 2;
-        }
-        .tooldesk * {
-            display: block;
-            margin-bottom: 2vw;
-        }
-        .functionPanel
-        {
-            height:0px;
-           visibility:hidden;
-            border: #FDF6E3 0.5vw solid;    
-            font-weight:bolder;
-        }
+
+
+
         #exportBtn
         {
             width: 100%;
