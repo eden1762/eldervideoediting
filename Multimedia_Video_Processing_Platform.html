@@ -28,7 +28,7 @@
             /*max-width: 600vw;*/
             /*margin: 10vw 0;
         }*/
-        .tooldesk
+        .tooldeskTop
         {
             /*margin-left:5vw;
             margin-right:5vw;
@@ -37,9 +37,62 @@
             overflow-x:hidden;  */ 
             position: fixed;
             top: 0;
-            right: 0;
-            width: 35vw;
-            max-height: 100vh;
+            right: 15vw;
+            left: 15vw;
+            width: 70vw;
+            height: 15vh;
+            overflow-y: auto;
+            padding: 2vw;
+            background-color: rgba(45, 45, 45, 0.85);
+            z-index: 2;
+        }
+        .tooldeskRight
+        {
+            /*margin-left:5vw;
+            margin-right:5vw;
+            max-height:95vh;
+            overflow-y:auto;
+            overflow-x:hidden;  */ 
+            position: fixed;
+            top: 0;
+            right: 0;  
+            width: 15vw;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2vw;
+            background-color: rgba(45, 45, 45, 0.85);
+            z-index: 2;
+        }
+        .tooldeskLeft
+        {
+            /*margin-left:5vw;
+            margin-right:5vw;
+            max-height:95vh;
+            overflow-y:auto;
+            overflow-x:hidden;  */ 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15vw;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 2vw;
+            background-color: rgba(45, 45, 45, 0.85);
+            z-index: 2;
+        }
+        .tooldeskBottom
+        {
+            /*margin-left:5vw;
+            margin-right:5vw;
+            max-height:95vh;
+            overflow-y:auto;
+            overflow-x:hidden;  */ 
+            position: fixed;
+            bottom: 0;
+            right: 15vw;
+            left: 15vw;
+            width: 70vw;
+            height: 15vh;
             overflow-y: auto;
             padding: 2vw;
             background-color: rgba(45, 45, 45, 0.85);
@@ -145,15 +198,16 @@
 </head>
 <body>
      <video id="videoPlayer" controls></video>  
-    <div class="tooldesk">
+    <div class="tooldeskTop">
         <span class="titleName">長者友善 影片剪輯器</span>
         <hr>
         <span id="output" class="methodName"></span>
         <!-- A. 匯入影片 -->
-        <input type="file" id="videoInput" accept="video/*">
-            
+        <input type="file" id="videoInput" accept="video/*">            
         <button id="exportBtn">📤完成影片</button> 
-        <a id="downloadLink" class="hidden" download="output.mp4">📥下載影片</a>        
+        <a id="downloadLink" class="hidden" download="output.mp4">📥下載影片</a>
+    </div>
+    <div class="tooldeskRight">                
         <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
         <div class="functionPanel toogletarget_1" >            
             <label>開始時間(秒)<input type="number" id="startTime" min="0" value="0"></label>
@@ -180,6 +234,8 @@
             <br>
             <div id="subtitlePreview"></div>
         </div>
+    </div>
+    <div class="tooldeskLeft">
         <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵加音樂</span>
         <div class="functionPanel toogletarget_3" >
             <button id="addMusicBtn">🎵加音樂</button>
@@ -191,7 +247,9 @@
         <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨加特效</span>
         <div class="functionPanel toogletarget_5" > 
             <button id="effectsBtn">✨加特效</button>
-        </div> 
+        </div>
+    </div>
+    <div class="tooldeskBottom">
         <!-- 語音識別 -->
         <span class="functionName toogletitle_6" onclick="toggleSelect('6');" >🎙️語音識別</span><br>
         <div class="functionPanel toogletarget_6" >         
@@ -202,9 +260,6 @@
         <div class="functionPanel toogletarget_7" >         
         <div id="waveform" class="audio-visualizer"></div>
         </div>
-        
-        
- 
     </div>
     <script>
         console.log("20250323-1207");
