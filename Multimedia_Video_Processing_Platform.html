@@ -113,13 +113,13 @@
             font-size: 6vw;
             color:#FDF6E3;
             font-weight:bolder;
-            
+            width:100%;            
         }
         .methodName {
-            font-size: 10vw;
+            font-size: 8vw;
             color:#FDF6E3;
             font-weight:bolder;
-            width:35vw;
+            width:100%;   
         }
         .functionName {
             font-size: 7vw;
@@ -206,47 +206,47 @@
         <span id="output" class="methodName"></span>
         <!-- A. 匯入影片 -->
         <input type="file" id="videoInput" accept="video/*">            
-        <button id="exportBtn">📤完成影片</button> 
-        <a id="downloadLink" class="hidden" download="output.mp4">📥下載影片</a>
+        <button id="exportBtn">📤完成</button> 
+        <a id="downloadLink" class="hidden" download="output.mp4">📥下載</a>
     </div>
     <div class="tooldeskRight">                
-        <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯影片</span><br>
+        <span class="functionName toogletitle_1" onclick="toggleSelect('1');" >✂️剪輯</span><br>
         <div class="functionPanel toogletarget_1" >            
             <label>開始時間(秒)<input type="number" id="startTime" min="0" value="0"></label>
             <br>
             <label>結束時間(秒)<input type="number" id="endTime" min="0" value="5"></label>
             <br>
-            <button id="trimBtn">✂️剪輯影片</button>
-            <!--<a id="downloadLink" class="hidden" download="output.mp4">📥下載剪輯影片</a>-->
+            <button id="trimBtn">✂️</button>
+            <!--<a id="downloadLink" class="hidden" download="output.mp4">📥下載</a>-->
         </div>
-        <span class="functionName toogletitle_2"  onclick="toggleSelect('2');">💬添加字幕</span>
+        <span class="functionName toogletitle_2"  onclick="toggleSelect('2');">💬字幕</span>
         <div class="functionPanel toogletarget_2" >
-            <button id="addSubtitlesBtn">開始添加字幕</button>
+            <button id="addSubtitlesBtn">開始</button>
             <div id="subtitleSection" class="subtitle-box hidden">
                 <label>字幕內容<input type="text" id="subtitleText"></label>
                 <label>開始時間(秒)<input type="number" id="subtitleStart" min="0"></label>
                 <label>結束時間(秒)<input type="number" id="subtitleEnd" min="0"></label>
-                <button id="applySubtitlesBtn">新增字幕</button>
+                <button id="applySubtitlesBtn">新增</button>
                 <ul id="subtitleList"></ul>
             </div>
-            <button id="generateSubtitledVideo">📼產生含字幕影片</button>
-            <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥下載含字幕影片</a>
+            <button id="generateSubtitledVideo">📼產生字幕</button>
+            <a id="subtitledDownloadLink" class="hidden" download="subtitled.mp4">📥下載</a>
             <br>
-            <label>📺字幕預覽</label>
+            <label>📺預覽</label>
             <br>
             <div id="subtitlePreview"></div>
         </div>
     </div>
     <div class="tooldeskLeft">
-        <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵加音樂</span>
+        <span class="functionName toogletitle_3"  onclick="toggleSelect('3');">🎵音樂</span>
         <div class="functionPanel toogletarget_3" >
             <button id="addMusicBtn">🎵加音樂</button>
         </div>
-        <span class="functionName toogletitle_4"  onclick="toggleSelect('4');">🎙加旁白</span>
+        <span class="functionName toogletitle_4"  onclick="toggleSelect('4');">🎙旁白</span>
         <div class="functionPanel toogletarget_4" >    
         <button id="addNarrationBtn">🎙加旁白</button>
         </div>
-        <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨加特效</span>
+        <span class="functionName toogletitle_5"  onclick="toggleSelect('5');">✨特效</span>
         <div class="functionPanel toogletarget_5" > 
             <button id="effectsBtn">✨加特效</button>
         </div>
